@@ -1,6 +1,14 @@
 import {Server as IOServer, ServerOptions} from "socket.io";
-import {ClientToServerEvents, GameServer, InterServerEvents, ServerToClientEvents, SocketData} from "@/service/types";
+import {
+  ClientToServerEvents,
+  GameServer,
+  InterServerEvents,
+  Profile,
+  ServerToClientEvents,
+  SocketData
+} from "@/service/types";
 import {Server} from "http";
+import roomId from "@/pages/room/[roomId]";
 
 const debugLog = (...args: any[]) => {
   console.log('--Server:', ...args)
@@ -15,7 +23,7 @@ const createServer = (server: Server, options?: Partial<ServerOptions>) => {
   >(server, options);
 
   io.use((socket, next) => {
-    const {profile} = socket.handshake.auth;
+    const { profile } = socket.handshake.auth;
     debugLog('authWith', profile)
     if (!profile) {
       return next(new Error("invalid username"));
@@ -26,12 +34,40 @@ const createServer = (server: Server, options?: Partial<ServerOptions>) => {
   });
 
   io.on('connection', (socket) => {
-    socket.on('sendMessage', (msg) => {
-      // @ts-ignore
-      const {profile} = socket;
-      if (profile) {
-        io.emit('newMessage', profile, msg)
+    let currentRoomId: string | undefined;
+    // @ts-ignore
+    const profile: Profile = socket.profile;
+
+    const runInRoom = (fn: (roomId: string) => void) => {
+      if(currentRoomId) {
+        debugLog('currentRoomId', currentRoomId)
+        fn(currentRoomId)
       }
+    }
+
+    socket.on('disconnect', () => {
+      runInRoom((roomId) => {
+        socket.in(roomId).emit('playerLeft', profile)
+        currentRoomId = undefined;
+      })
+    })
+    socket.on('joinRoom', (newRoomId) => {
+      if(currentRoomId === newRoomId) {
+        return;
+      }
+      runInRoom((roomId) => {
+        socket.in(roomId).emit('playerLeft', profile)
+        socket.leave(roomId);
+      })
+      socket.join(newRoomId);
+      io.in(newRoomId).emit('playerJoined', profile)
+      currentRoomId = newRoomId;
+    })
+
+    socket.on('sendMessage', (msg) => {
+      runInRoom((roomId) => {
+        io.in(roomId).emit('newMessage', profile, msg)
+      })
     })
   })
   return io;

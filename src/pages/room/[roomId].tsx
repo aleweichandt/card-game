@@ -13,7 +13,7 @@ const RoomScreen: React.FC<Props> = () => {
         <header>Room {roomId}</header>
       </section>
       <aside>
-        <ChatView />
+        {roomId && <ChatView roomId={roomId as string}/>}
       </aside>
     </main>
   )

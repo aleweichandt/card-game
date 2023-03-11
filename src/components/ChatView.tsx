@@ -1,14 +1,16 @@
-import React, {FormEventHandler, useRef, useState} from "react";
+import React, {FormEventHandler, useEffect, useRef, useState} from "react";
 import useAsyncEffect from "@/components/useAsyncEffect";
 import {init} from "@/client/gameSocket";
 import {GameSocket} from "@/service/types";
+import roomId from "@/pages/room/[roomId]";
 
-type Props = {}
+type Props = {
+  roomId: string;
+}
 
 let socket: GameSocket | undefined
-const ChatView: React.FC<Props> = () => {
+const ChatView: React.FC<Props> = ({ roomId}) => {
   const [messages, setMessages] = useState<string[]>([])
-  let sendMessage = useRef<(msg: string) => void>(() => {}).current
   const inputRef = useRef<HTMLInputElement>(null)
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
@@ -25,6 +27,15 @@ const ChatView: React.FC<Props> = () => {
       const newMessage = `${from.name}: ${message}`;
       setMessages( all => [...all, newMessage])
     })
+    socket.on('playerJoined', (profile) => {
+      const newMessage = `${profile.name} joined the room`;
+      setMessages( all => [...all, newMessage])
+    })
+    socket.on('playerLeft', (profile) => {
+      const newMessage = `${profile.name} left the room`;
+      setMessages( all => [...all, newMessage])
+    })
+    socket.emit('joinRoom', roomId)
   }, [])
 
   return (
