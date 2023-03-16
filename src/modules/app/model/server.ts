@@ -1,18 +1,18 @@
 import {Server as IOServer, ServerOptions} from "socket.io";
 import {
-  ClientToServerEvents,
   GameServer,
+} from "@/modules/app/model/types";
+import {
+  ClientToServerEvents,
   InterServerEvents,
-  Profile,
   ServerToClientEvents,
   SocketData
-} from "@/service/types";
+} from "@/modules/app/model/socketApi";
 import {Server} from "http";
-import roomId from "@/pages/room/[roomId]";
+import {Profile} from "@/modules/session/model/types";
+import logger from "@/modules/core/model/logger";
 
-const debugLog = (...args: any[]) => {
-  console.log('--Server:', ...args)
-}
+const debugLog = logger('--Server:')
 
 const createServer = (server: Server, options?: Partial<ServerOptions>) => {
   const io: GameServer = new IOServer<
@@ -40,7 +40,6 @@ const createServer = (server: Server, options?: Partial<ServerOptions>) => {
 
     const runInRoom = (fn: (roomId: string) => void) => {
       if(currentRoomId) {
-        debugLog('currentRoomId', currentRoomId)
         fn(currentRoomId)
       }
     }
@@ -51,14 +50,18 @@ const createServer = (server: Server, options?: Partial<ServerOptions>) => {
         currentRoomId = undefined;
       })
     })
+
     socket.on('joinRoom', (newRoomId) => {
+      // Skip if joining back to same room
       if(currentRoomId === newRoomId) {
         return;
       }
+      // Leave previous room
       runInRoom((roomId) => {
         socket.in(roomId).emit('playerLeft', profile)
         socket.leave(roomId);
       })
+      // Join new room
       socket.join(newRoomId);
       io.in(newRoomId).emit('playerJoined', profile)
       currentRoomId = newRoomId;

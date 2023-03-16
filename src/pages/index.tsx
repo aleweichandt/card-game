@@ -1,34 +1,21 @@
-import React, {FormEventHandler, useRef} from "react";
+import React from "react";
 import {useRouter} from "next/router";
+import JoinForm from "@/modules/session/view/JoinForm";
+import ScreenLayout from "@/modules/core/view/ScreenLayout";
 
 type Props = {}
 
 const HomeScreen: React.FC<Props> = () => {
   const router = useRouter()
-  const inputRef = useRef<HTMLInputElement>(null)
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault()
-    const username = inputRef?.current?.value
-    if (username && username.length > 0) {
-      await router.push(`/room/abc`)
-    }
+  const onSubmit = async (_: string) => {
+    await router.push(`/room/abc`)
   }
   return (
-    <main>
-      <section>
-        <header>
-          Welcome!
-        </header>
-        <article>
-          <form onSubmit={onSubmit}>
-            <input ref={inputRef} type="text" autoComplete="false" name="username"/>
-            <div>
-              <button type="submit">Create Room</button>
-            </div>
-          </form>
-        </article>
-      </section>
-    </main>
+    <ScreenLayout header="Welcome!">
+      <article>
+        <JoinForm onSubmit={onSubmit} />
+      </article>
+    </ScreenLayout>
   )
 }
 

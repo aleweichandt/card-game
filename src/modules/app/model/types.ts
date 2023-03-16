@@ -3,7 +3,7 @@ import {Server as IOServer} from "socket.io";
 import {Socket as IOSocket} from 'socket.io-client'
 import {NextApiResponse} from "next";
 import {Socket} from "net";
-import roomId from "@/pages/room/[roomId]";
+import {Profile} from "@/modules/session/model/types";
 
 export type NextApiResponseServerIO = NextApiResponse & {
   socket: Socket & {
@@ -32,10 +32,6 @@ export interface SocketData {
 
 export type GameServer = IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
 export type GameSocket = IOSocket<ServerToClientEvents, ClientToServerEvents>;
-export interface Profile {
-  id: string;
-  name: string;
-}
 
 
 

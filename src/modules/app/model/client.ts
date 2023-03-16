@@ -1,5 +1,6 @@
 import {io} from "socket.io-client";
-import {GameSocket, Profile} from "@/service/types";
+import {GameSocket} from "@/modules/app/model/types";
+import {Profile} from "@/modules/session/model/types";
 
 export const init = async (cleanUp: boolean = false): Promise<GameSocket> => {
   await fetch('/api/socket')

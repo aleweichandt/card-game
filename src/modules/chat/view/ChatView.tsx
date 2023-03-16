@@ -1,8 +1,7 @@
-import React, {FormEventHandler, useEffect, useRef, useState} from "react";
-import useAsyncEffect from "@/components/useAsyncEffect";
-import {init} from "@/client/gameSocket";
-import {GameSocket} from "@/service/types";
-import roomId from "@/pages/room/[roomId]";
+import React, {FormEventHandler, useRef, useState} from "react";
+import useAsyncEffect from "@/modules/core/view/hooks/useAsyncEffect";
+import {init} from "@/modules/app/model/client";
+import {GameSocket} from "@/modules/app/model/types";
 
 type Props = {
   roomId: string;

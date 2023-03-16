@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {useRouter} from "next/router";
-import ChatView from "@/components/ChatView";
+import ChatView from "@/modules/chat/view/ChatView";
+import ScreenLayout from "@/modules/core/view/ScreenLayout";
 
 type Props = {}
 
@@ -8,14 +9,11 @@ const RoomScreen: React.FC<Props> = () => {
   const router = useRouter()
   const { roomId } = router.query;
   return (
-    <main>
-      <section>
-        <header>Room {roomId}</header>
-      </section>
+    <ScreenLayout header={`Room ${roomId}`}>
       <aside>
         {roomId && <ChatView roomId={roomId as string}/>}
       </aside>
-    </main>
+    </ScreenLayout>
   )
 }
 

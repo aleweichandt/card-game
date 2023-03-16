@@ -5,6 +5,7 @@ const useAsyncEffect = (
 ) => {
   useEffect(() => {
     fn()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
 }
 
