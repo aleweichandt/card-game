@@ -1,7 +1,7 @@
 import React, {FormEventHandler, useRef, useState} from "react";
 import useAsyncEffect from "@/modules/core/view/hooks/useAsyncEffect";
-import {init} from "@/modules/app/model/client";
 import {GameSocket} from "@/modules/app/model/types";
+import {connect} from "@/modules/session/model/connect";
 
 type Props = {
   roomId: string;
@@ -21,7 +21,7 @@ const ChatView: React.FC<Props> = ({ roomId}) => {
   }
 
   useAsyncEffect(async () => {
-    socket = await init()
+    socket = await connect()
     socket.on('newMessage', (from, message) => {
       const newMessage = `${from.name}: ${message}`;
       setMessages( all => [...all, newMessage])

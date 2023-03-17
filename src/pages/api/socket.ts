@@ -1,4 +1,4 @@
-import createServer from "@/modules/app/model/server";
+import createServer from "@/modules/service/server";
 import {NextApiRequest} from "next";
 import {NextApiResponseServerIO} from "@/modules/app/model/types";
 
