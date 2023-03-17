@@ -1,6 +1,5 @@
 import React from "react";
 import {useRouter} from "next/router";
-import {v4 as uuid} from "uuid";
 import JoinForm from "@/modules/session/view/JoinForm";
 import ScreenLayout from "@/modules/core/view/ScreenLayout";
 
@@ -8,12 +7,12 @@ type Props = {}
 
 const HomeScreen: React.FC<Props> = () => {
   const router = useRouter()
+  const {room: roomId} = router.query;
   const onSubmit = async () => {
-    const roomId = uuid()
     await router.push(`/room/${roomId}`)
   }
   return (
-    <ScreenLayout header="Welcome!">
+    <ScreenLayout header="Before you join the room...">
       <article>
         <JoinForm onSubmit={onSubmit}/>
       </article>

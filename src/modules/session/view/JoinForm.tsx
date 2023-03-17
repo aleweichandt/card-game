@@ -1,7 +1,8 @@
 import React, {FormEventHandler, useRef} from "react";
+import {createProfile} from "@/modules/session/model/profileRepository";
 
 type Props = {
-  onSubmit: (username: string) => Promise<void>;
+  onSubmit: () => Promise<void>;
 }
 
 const JoinForm: React.FC<Props> = ({ onSubmit: submit }) => {
@@ -10,7 +11,8 @@ const JoinForm: React.FC<Props> = ({ onSubmit: submit }) => {
     e.preventDefault()
     const username = inputRef?.current?.value
     if (username && username.length > 0) {
-      await submit(username)
+      createProfile(username)
+      await submit()
     }
   }
 
