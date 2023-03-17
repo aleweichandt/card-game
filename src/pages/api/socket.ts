@@ -8,9 +8,7 @@ const socketHandler = async (
   ) => {
     if (!res.socket?.server.io) {
       res.socket.server.io = createServer(res.socket.server, {
-        cors: {
-          origin: "http://localhost:3000",
-        }
+        path: "/api/socketio",
       })
     } else {
       console.log('--Server:', 'service already running')
