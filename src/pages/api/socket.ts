@@ -8,7 +8,7 @@ const socketHandler = async (
   ) => {
     if (!res.socket?.server.io) {
       res.socket.server.io = createServer(res.socket.server, {
-        path: "/api/socketio",
+        path: "/api/socket",
       })
     } else {
       console.log('--Server:', 'service already running')

@@ -4,8 +4,8 @@ export const init = async (
   socketUrl: string = '/api/socket',
 ): Promise<Socket> => {
   await fetch(socketUrl)
-  return io({
+  return io( {
     autoConnect: false,
-    path: "/api/socketio",
+    path: "/api/socket",
   });
 }
