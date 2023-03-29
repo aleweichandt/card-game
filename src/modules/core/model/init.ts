@@ -1,9 +1,6 @@
 import {io, Socket} from "socket.io-client";
 
-export const init = async (
-  socketUrl: string = '/api/socket',
-): Promise<Socket> => {
-  // await fetch(socketUrl)
+export const init = async (): Promise<Socket> => {
   // @ts-ignore
   return io(process.env.BASE_URL, {
     autoConnect: false,
