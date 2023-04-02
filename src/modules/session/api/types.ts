@@ -12,3 +12,8 @@ export type ClientToServerEvents = {
 export type InterServerEvents = {}
 
 export type SocketData = {}
+
+export type SocketLocal = {
+  profile: Profile,
+  runInRoom: (fn: (roomId: string) => void) => void
+}
