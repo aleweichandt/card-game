@@ -1,13 +1,13 @@
 import React, {FormEventHandler, useRef, useState} from "react";
 import useAsyncEffect from "@/modules/core/view/hooks/useAsyncEffect";
-import {GameSocket} from "@/modules/app/model/types";
 import {connect} from "@/modules/session/model/connect";
+import {ChatSocket} from "@/modules/chat/model/types";
 
 type Props = {
   roomId: string;
 }
 
-let socket: GameSocket | undefined
+let socket: ChatSocket | undefined
 const ChatView: React.FC<Props> = ({ roomId}) => {
   const [messages, setMessages] = useState<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)

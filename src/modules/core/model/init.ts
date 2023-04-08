@@ -1,6 +1,6 @@
-import {io, Socket} from "socket.io-client";
+import {io, Socket as IOSocket} from "socket.io-client";
 
-export const init = async (): Promise<Socket> => {
+export const init = async <STC extends object, CTS extends object>(): Promise<IOSocket<STC, CTS>> => {
   // @ts-ignore
   return io(process.env.BASE_URL, {
     autoConnect: false,
