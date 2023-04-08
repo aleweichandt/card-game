@@ -1,11 +1,10 @@
 import {Profile} from "@/modules/session/model/types";
 import {Message} from "@/modules/chat/model/types";
+import {ServerToClientEvents as SessionSTC} from '@/modules/session/api/types'
 
 export type ServerToClientEvents = {
   newMessage: (from: Profile, message: Message) => void;
-  playerJoined: (profile: Profile) => void;
-  playerLeft: (profile: Profile) => void;
-}
+} & SessionSTC
 
 export type ClientToServerEvents = {
   sendMessage: (msg: Message) => void;
