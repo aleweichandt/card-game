@@ -1,6 +1,6 @@
-import createServer from "@/modules/service/server";
+import createServer from "@/service/server";
 import {NextApiRequest} from "next";
-import {NextApiResponseServerIO} from "@/modules/service/types";
+import {NextApiResponseServerIO} from "@/service/types";
 
 const socketHandler = async (
   req: NextApiRequest,

@@ -4,10 +4,10 @@ import {
   InterServerEvents,
   ServerToClientEvents,
   SocketData
-} from "@/modules/service/types";
+} from "@/service/types";
 import {Server} from "http";
-import {serverBinding} from "@/modules/service/serverBinding";
-import {socketBinding} from "@/modules/service/socketBinding";
+import {serverBinding} from "@/service/serverBinding";
+import {socketBinding} from "@/service/socketBinding";
 
 const createServer = (server: Server, options?: Partial<ServerOptions>) => {
   const io = new IOServer<

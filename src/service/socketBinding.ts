@@ -5,7 +5,7 @@ import {
   ServerToClientEvents,
   SocketData,
   SocketLocal
-} from "@/modules/service/types";
+} from "@/service/types";
 import {socketBinding as sessionBindings} from "@/modules/session/api/socketBinding";
 import {socketBinding as chatBindings} from "@/modules/chat/api/socketBinding";
 
