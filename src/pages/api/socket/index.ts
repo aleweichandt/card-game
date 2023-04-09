@@ -8,6 +8,8 @@ const socketHandler = async (
 ) => {
   if (!res.socket?.server.io) {
     res.socket.server.io = createServer(res.socket.server, {
+      // @ts-ignore
+      origin: process.env.BASE_URL,
       path: "/api/socket",
     })
     console.log('--Server:', 'creating server')
